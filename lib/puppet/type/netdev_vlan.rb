@@ -14,6 +14,14 @@ Puppet::Type.newtype(:netdev_vlan) do
   @doc = "Network Device VLAN"
 
   ensurable
+  
+  ##### -------------------------------------------------------------
+  ##### Features
+  ##### -------------------------------------------------------------  
+
+  feature :activable, "Activation configuraiton sections"
+  feature :describable, "Provide a description for the VLAN"
+  feature :maclearning, "Supports enabling or disabling MAC learning"
 
   ##### -------------------------------------------------------------
   ##### Parameters
@@ -27,13 +35,13 @@ Puppet::Type.newtype(:netdev_vlan) do
   ##### Properties
   ##### -------------------------------------------------------------  
   
-  newproperty(:active) do
+  newproperty(:active, :required_features => :activable) do
     desc "Config activation"
     defaultto(:true)
     newvalues(:true, :false)
   end
   
-  newproperty(:description) do
+  newproperty(:description, :required_features => :describable) do
     desc "The VLAN Description"
   end
   
@@ -41,7 +49,7 @@ Puppet::Type.newtype(:netdev_vlan) do
     desc "The VLAN ID"
   end
   
-  newproperty(:no_mac_learning) do
+  newproperty(:no_mac_learning, :required_features => :maclearning) do
     desc "Do not learn MAC addresses; used for 2-port VLANs"
     defaultto(:false)
     newvalues(:true, :false)
