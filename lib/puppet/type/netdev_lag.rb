@@ -14,6 +14,12 @@ Puppet::Type.newtype(:netdev_lag) do
   @doc = "Network Device Link Aggregation Group"
 
   ensurable
+  
+  ##### -------------------------------------------------------------
+  ##### Features
+  ##### -------------------------------------------------------------  
+
+  feature :activable, "Activate configuration sections"
 
   ##### -------------------------------------------------------------    
   ##### Parameters
@@ -27,7 +33,7 @@ Puppet::Type.newtype(:netdev_lag) do
   ##### Properties
   ##### -------------------------------------------------------------  
   
-  newproperty( :active ) do
+  newproperty( :active, :required_features => :activable ) do
     desc "Config activation"
     defaultto( :true )
     newvalues( :true, :false )
