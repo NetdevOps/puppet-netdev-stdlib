@@ -5,6 +5,7 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
 
   ensurable
 
+  # Note: title_patterns depends on the order of the namevar parameters
   newparam(:name, namevar: true) do
     desc 'Hostname or IP address of the receiver'
 
@@ -15,14 +16,19 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
     end
   end
 
-  newproperty(:type) do
-    desc 'The type of receiver [traps|informs]'
-    newvalues(:traps, :informs)
+  newparam(:port, namevar: true) do
+    desc 'SNMP UDP port number'
+    munge { |v| Integer([*v].first) }
   end
 
-  newproperty(:version) do
+  newparam(:version, namevar: true) do
     desc 'SNMP version [v1|v2|v3]'
     newvalues(:v1, :v2, :v3)
+  end
+
+  newparam(:type, namevar: true) do
+    desc 'The type of receiver [traps|informs]'
+    newvalues(:traps, :informs)
   end
 
   newproperty(:username) do
@@ -38,11 +44,6 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
   newproperty(:security) do
     desc 'SNMPv3 security mode'
     newvalues(:auth, :noauth, :priv)
-  end
-
-  newproperty(:port) do
-    desc 'SNMP UDP port number'
-    munge { |v| Integer(v) }
   end
 
   newproperty(:community) do
@@ -74,4 +75,21 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
       end
     end
   end
+
+  # Ugh.  Overriding a private method to get composite namevars to work.
+  def self.title_patterns
+    # FIXME Left off trying to get composite namevars to work
+    identity = nil # optimization in Puppet core
+    name = [ :name, identity ]
+    port = [ :port, lambda { |x| Integer(x) } ]
+    version = [ :version, lambda { |x| x.slice(0..1) } ]
+    type = [ :type, lambda { |x| x.intern } ]
+    [
+      [ /^([^:]+)$/,                          [ name ] ],
+      [ /^([^:]+):([^:]+)$/,                  [ name, port ] ],
+      [ /^([^:]+):([^:]+):([^:]+)$/,          [ name, port, version ] ],
+      [ /^([^:]+):([^:]+):([^:]+):([^:]+)$/,  [ name, port, version, type ] ]
+    ]
+    end
+
 end
