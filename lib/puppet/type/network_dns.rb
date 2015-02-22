@@ -3,8 +3,6 @@
 Puppet::Type.newtype(:network_dns) do
   @doc = 'Configure DNS settings for network devices'
 
-  ensurable
-
   newparam(:name, namevar: true) do
     desc 'Name, generally "settings", not used to manage the resource'
 
