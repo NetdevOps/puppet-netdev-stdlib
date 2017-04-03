@@ -32,6 +32,7 @@ Puppet::Type.newtype(:network_trunk) do
     desc 'VLAN used for untagged VLAN traffic. a.k.a Native VLAN'
 
     validate do |value|
+      value = Integer(value)
       unless value.between?(1, 4095)
         fail "value #{value.inspect} is not between 1 and 4095"
       end
