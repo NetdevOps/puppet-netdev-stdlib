@@ -1,5 +1,4 @@
 # encoding: utf-8
-# rubocop:disable Style/PredicateName
 
 Puppet::Type.newtype(:network_trunk) do
   @doc = 'Ethernet logical (switch-port) interface.  Configures VLAN trunking.'
@@ -13,7 +12,7 @@ Puppet::Type.newtype(:network_trunk) do
     validate do |value|
       case value
       when String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
+      else raise "value #{value.inspect} is invalid, must be a String."
       end
     end
   end
@@ -33,7 +32,7 @@ Puppet::Type.newtype(:network_trunk) do
 
     validate do |value|
       unless value.between?(1, 4095)
-        fail "value #{value.inspect} is not between 1 and 4095"
+        raise "value #{value.inspect} is not between 1 and 4095"
       end
     end
   end
@@ -43,7 +42,7 @@ Puppet::Type.newtype(:network_trunk) do
 
     validate do |value|
       unless value.between?(1, 4095)
-        fail "value #{value.inspect} is not between 1 and 4095"
+        raise "value #{value.inspect} is not between 1 and 4095"
       end
     end
 
@@ -55,7 +54,7 @@ Puppet::Type.newtype(:network_trunk) do
       "[#{[*val].join(',')}]"
     end
 
-    def is_to_s(val)
+    def to_s?(val)
       "[#{[*val].join(',')}]"
     end
   end
@@ -65,7 +64,7 @@ Puppet::Type.newtype(:network_trunk) do
 
     validate do |value|
       unless value.between?(1, 4095)
-        fail "value #{value.inspect} is not between 1 and 4095"
+        raise "value #{value.inspect} is not between 1 and 4095"
       end
     end
 
@@ -77,7 +76,7 @@ Puppet::Type.newtype(:network_trunk) do
       "[#{[*val].join(',')}]"
     end
 
-    def is_to_s(val)
+    def to_s?(val)
       "[#{[*val].join(',')}]"
     end
   end

@@ -12,9 +12,8 @@ Puppet::Type.newtype(:ntp_server) do
     desc 'The hostname or address of the NTP server'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -43,9 +42,8 @@ Puppet::Type.newtype(:ntp_server) do
     desc 'The source interface used to reach the NTP server'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -53,9 +51,8 @@ Puppet::Type.newtype(:ntp_server) do
     desc 'The VRF instance this server is bound to.'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 end

@@ -9,9 +9,8 @@ Puppet::Type.newtype(:radius_global) do
     desc 'Resource identifier, not used to manage the device'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -24,9 +23,8 @@ Puppet::Type.newtype(:radius_global) do
     desc 'Encryption key (plaintext or in hash form depending on key_format)'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -44,9 +42,8 @@ Puppet::Type.newtype(:radius_global) do
     desc 'The source interface used for RADIUS packets (array of strings for multiple).'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -59,9 +56,8 @@ Puppet::Type.newtype(:radius_global) do
     desc 'The VRF associated with source_interface (array of strings for multiple).'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 end

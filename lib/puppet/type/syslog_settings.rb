@@ -9,9 +9,8 @@ Puppet::Type.newtype(:syslog_settings) do
     desc 'Resource name, not used to configure the device'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -24,9 +23,8 @@ Puppet::Type.newtype(:syslog_settings) do
     desc "Console logging severity level [0-7] or 'unset'"
 
     validate do |value|
-      if (value.to_s.match('^[0-7]$') || value == 'unset') then super(value)
-      else fail "value #{value.inspect} is invalid, must be 0-7 or 'unset'"
-      end
+      raise "value #{value.inspect} is invalid, must be 0-7 or 'unset'" unless value.to_s.match('^[0-7]$') || value == 'unset'
+      super(value)
     end
   end
 
@@ -34,9 +32,8 @@ Puppet::Type.newtype(:syslog_settings) do
     desc "Monitor (terminal) logging severity level [0-7] or 'unset'"
 
     validate do |value|
-      if (value.to_s.match('^[0-7]$') || value == 'unset') then super(value)
-      else fail "value #{value.inspect} is invalid, must be 0-7 or 'unset'"
-      end
+      raise "value #{value.inspect} is invalid, must be 0-7 or 'unset'" unless value.to_s.match('^[0-7]$') || value == 'unset'
+      super(value)
     end
   end
 
@@ -44,9 +41,8 @@ Puppet::Type.newtype(:syslog_settings) do
     desc 'Source interface to send syslog data from, e.g. "ethernet 2/1" (array of strings for multiple)'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -59,9 +55,8 @@ Puppet::Type.newtype(:syslog_settings) do
     desc 'The VRF associated with source_interface (array of strings for multiple).'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 end

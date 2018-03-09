@@ -10,9 +10,8 @@ Puppet::Type.newtype(:tacacs_server) do
     desc 'The name of the tacacs server group'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -20,9 +19,8 @@ Puppet::Type.newtype(:tacacs_server) do
     desc 'The hostname or address of the tacacs server'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -35,9 +33,8 @@ Puppet::Type.newtype(:tacacs_server) do
     desc 'specifies the VRF instance used to communicate with the server'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -51,9 +48,8 @@ Puppet::Type.newtype(:tacacs_server) do
     desc 'Encryption key (plaintext or in hash form depending on key_format)'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -71,9 +67,8 @@ Puppet::Type.newtype(:tacacs_server) do
     desc 'Server group associated with this server'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 end

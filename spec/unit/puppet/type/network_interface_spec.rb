@@ -3,12 +3,12 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:network_interface) do
+  subject { described_class.attrclass(attribute) }
+
   let(:catalog) { Puppet::Resource::Catalog.new }
   let(:type) do
     described_class.new(name: 'Ethernet1', catalog: catalog)
   end
-
-  subject { described_class.attrclass(attribute) }
 
   it_behaves_like 'name is the namevar'
   it_behaves_like 'enabled type'

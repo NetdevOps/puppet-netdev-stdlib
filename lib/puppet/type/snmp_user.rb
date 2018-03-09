@@ -10,9 +10,8 @@ Puppet::Type.newtype(:snmp_user) do
     desc 'The name of the SNMP user'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -26,16 +25,15 @@ Puppet::Type.newtype(:snmp_user) do
     desc 'A list of roles associated with this SNMP user'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
 
-    def should_to_s(new_value=@should)
+    def should_to_s(new_value = @should)
       self.class.format_value_for_display(new_value)
     end
 
-    def is_to_s(current_value=@is)
+    def to_s?(current_value = @is)
       self.class.format_value_for_display(current_value)
     end
   end
@@ -49,9 +47,8 @@ Puppet::Type.newtype(:snmp_user) do
     desc 'Cleartext password for the user'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -64,9 +61,8 @@ Puppet::Type.newtype(:snmp_user) do
     desc 'Private key in hexadecimal string'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -84,19 +80,18 @@ Puppet::Type.newtype(:snmp_user) do
     desc 'Necessary if the SNMP engine is encrypting data'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
   def self.title_patterns
     identity = nil # optimization in Puppet core
-    name = [ :name, identity ]
-    version  = [ :version, lambda { |x| x.intern } ]
+    name = [:name, identity]
+    version = [:version, ->(x) { x.to_sym }]
     [
-      [ /^([^:]*)$/,                 [ name ] ],
-      [ /^([^:]*):([^:]*)$/,         [ name, version ] ],
+      [%r{^([^:]*)$},                 [name]],
+      [%r{^([^:]*):([^:]*)$},         [name, version]],
     ]
   end
 end

@@ -33,7 +33,7 @@ Puppet::Type.newtype(:ntp_auth_key) do
     desc 'Password text'
 
     validate do |value|
-      fail "value #{value.inspect} is invalid, must be a String." unless
+      raise "value #{value.inspect} is invalid, must be a String." unless
       value.is_a? String
       super(value)
     end

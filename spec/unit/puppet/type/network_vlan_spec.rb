@@ -9,18 +9,20 @@ describe Puppet::Type.type(:network_vlan) do
   it_behaves_like 'an ensurable type', name: '100'
 
   describe 'vlan_name' do
-    let(:attribute) { :vlan_name }
     subject { described_class.attrclass(attribute) }
+
+    let(:attribute) { :vlan_name }
 
     include_examples 'property'
     include_examples '#doc Documentation'
-    include_examples 'accepts values without munging', %w(Engineering)
+    include_examples 'accepts values without munging', %w[Engineering]
     include_examples 'rejects values', [[1], { two: :three }]
   end
 
   describe 'description' do
-    let(:attribute) { :description }
     subject { described_class.attrclass(attribute) }
+
+    let(:attribute) { :description }
 
     include_examples 'property'
     include_examples '#doc Documentation'
@@ -30,15 +32,16 @@ describe Puppet::Type.type(:network_vlan) do
   end
 
   describe 'id' do
-    let(:attribute) { :id }
     subject { described_class.attrclass(attribute) }
+
+    let(:attribute) { :id }
 
     include_examples 'parameter'
     include_examples '#doc Documentation'
     include_examples 'rejects values', [{ two: :three }, 'abc']
 
     [100, '100'].each do |val|
-      it "validates #{val.inspect} as isomorphic to '100'"  do
+      it "validates #{val.inspect} as isomorphic to '100'" do
         type[attribute] = val
         expect(type[attribute]).to eq(val.to_s)
       end
@@ -46,8 +49,9 @@ describe Puppet::Type.type(:network_vlan) do
   end
 
   describe 'shutdown' do
-    let(:attribute) { :shutdown }
     subject { described_class.attrclass(attribute) }
+
+    let(:attribute) { :shutdown }
 
     include_examples 'property'
     include_examples '#doc Documentation'

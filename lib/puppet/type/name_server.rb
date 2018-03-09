@@ -10,9 +10,8 @@ Puppet::Type.newtype(:name_server) do
     desc 'The hostname or address of the DNS server'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 end

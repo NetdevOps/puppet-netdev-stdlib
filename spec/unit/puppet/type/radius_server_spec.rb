@@ -3,15 +3,17 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:radius_server) do
+  subject { described_class.attrclass(attribute) }
+
   let(:catalog) { Puppet::Resource::Catalog.new }
   let(:type) { described_class.new(name: 'emanon', catalog: catalog) }
-  subject { described_class.attrclass(attribute) }
 
   it_behaves_like 'name is the namevar'
   it_behaves_like 'it has a string property', :key
 
   describe 'key_format' do
     let(:attribute) { :key_format }
+
     include_examples 'numeric parameter', min: 0, max: 7
   end
 
@@ -19,11 +21,13 @@ describe Puppet::Type.type(:radius_server) do
 
   describe 'deadtime' do
     let(:attribute) { :deadtime }
+
     include_examples 'numeric parameter', min: 0, max: 10_080
   end
 
   describe 'timeout' do
     let(:attribute) { :timeout }
+
     include_examples 'numeric parameter', min: 0, max: 604_800
   end
 
@@ -32,11 +36,13 @@ describe Puppet::Type.type(:radius_server) do
 
   describe 'retransmit_count' do
     let(:attribute) { :retransmit_count }
+
     include_examples 'numeric parameter', min: 0, max: 2048
   end
 
   describe 'acct_port' do
     let(:attribute) { :acct_port }
+
     include_examples 'numeric parameter', min: 0, max: 65_535
   end
 
@@ -44,6 +50,7 @@ describe Puppet::Type.type(:radius_server) do
 
   describe 'auth_port' do
     let(:attribute) { :auth_port }
+
     include_examples 'numeric parameter', min: 0, max: 65_535
   end
 

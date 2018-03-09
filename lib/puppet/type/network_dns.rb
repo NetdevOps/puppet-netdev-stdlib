@@ -10,9 +10,8 @@ Puppet::Type.newtype(:network_dns) do
     desc 'Name, generally "settings", not used to manage the resource'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -20,9 +19,8 @@ Puppet::Type.newtype(:network_dns) do
     desc 'The default domain name to append to the device hostname'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -30,20 +28,19 @@ Puppet::Type.newtype(:network_dns) do
     desc 'Array of DNS suffixes to search for FQDN entries'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
 
     def insync?(is)
       is.sort == @should.sort.map(&:to_s)
     end
 
-    def should_to_s(new_value=@should)
+    def should_to_s(new_value = @should)
       self.class.format_value_for_display(new_value)
     end
 
-    def is_to_s(current_value=@is)
+    def to_s?(current_value = @is)
       self.class.format_value_for_display(current_value)
     end
   end
@@ -52,20 +49,19 @@ Puppet::Type.newtype(:network_dns) do
     desc 'Array of DNS servers to use for name resolution'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
 
     def insync?(is)
       is.sort == @should.sort.map(&:to_s)
     end
 
-    def should_to_s(new_value=@should)
+    def should_to_s(new_value = @should)
       self.class.format_value_for_display(new_value)
     end
 
-    def is_to_s(current_value=@is)
+    def to_s?(current_value = @is)
       self.class.format_value_for_display(current_value)
     end
   end

@@ -9,9 +9,8 @@ Puppet::Type.newtype(:ntp_config) do
     desc 'Resource name, not used to configure the device'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -24,9 +23,8 @@ Puppet::Type.newtype(:ntp_config) do
     desc 'The source interface for the NTP system'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -34,20 +32,19 @@ Puppet::Type.newtype(:ntp_config) do
     desc 'Array of global trusted-keys.  Contents can be a String or Integers'
 
     validate do |value|
-      if (value.is_a? String) || (value.is_a? Integer) then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String or Integer."
-      end
+      raise "value #{value.inspect} is invalid, must be a String or Integer." unless (value.is_a? String) || (value.is_a? Integer)
+      super(value)
     end
 
     def insync?(is)
       is.map(&:to_s).sort == @should.map(&:to_s).sort
     end
 
-    def should_to_s(new_value=@should)
+    def should_to_s(new_value = @should)
       self.class.format_value_for_display(new_value)
     end
 
-    def is_to_s(current_value=@is)
+    def to_s?(current_value = @is)
       self.class.format_value_for_display(current_value)
     end
   end

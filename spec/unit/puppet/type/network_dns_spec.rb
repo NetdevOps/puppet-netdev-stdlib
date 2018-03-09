@@ -3,10 +3,10 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:network_dns) do
+  subject { described_class.attrclass(attribute) }
+
   let(:catalog) { Puppet::Resource::Catalog.new }
   let(:type) { described_class.new(name: 'emanon', catalog: catalog) }
-
-  subject { described_class.attrclass(attribute) }
 
   it_behaves_like 'the namevar is', :name
   it_behaves_like 'it has a string property', :domain

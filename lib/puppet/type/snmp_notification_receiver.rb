@@ -10,9 +10,8 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
     desc 'Hostname or IP address of the receiver'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -26,9 +25,8 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
       'community string for SNMPv1 and v2'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -51,9 +49,8 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
     desc 'Interface to send SNMP data from, e.g. "management"'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -61,21 +58,20 @@ Puppet::Type.newtype(:snmp_notification_receiver) do
     desc 'Source interface to send SNMP data from, e.g. "ethernet 2/1"'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
   def self.title_patterns
     identity = nil # optimization in Puppet core
-    name = [ :name, identity ]
-    username  = [ :username, identity ]
-    port = [ :port, lambda { |x| Integer(x) } ]
+    name = [:name, identity]
+    username = [:username, identity]
+    port = [:port, ->(x) { Integer(x) }]
     [
-      [ /^([^:]*)$/,                 [ name ] ],
-      [ /^([^:]*):([^:]*)$/,         [ name, username ] ],
-      [ /^([^:]*):([^:]*):([^:]*)$/, [ name, username, port ] ],
+      [%r{^([^:]*)$},                 [name]],
+      [%r{^([^:]*):([^:]*)$},         [name, username]],
+      [%r{^([^:]*):([^:]*):([^:]*)$}, [name, username, port]],
     ]
   end
 end

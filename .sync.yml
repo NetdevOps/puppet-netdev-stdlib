@@ -1,6 +1,9 @@
 ---
 .travis.yml:
   docker_sets:
+  extras:
+    - rvm
+      script: bundle exec rake rubocop
 
 appveyor.yml:
   delete: true

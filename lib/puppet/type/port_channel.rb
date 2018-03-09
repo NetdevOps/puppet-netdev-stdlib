@@ -12,7 +12,7 @@ Puppet::Type.newtype(:port_channel) do
     validate do |value|
       case value
       when String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
+      else raise "value #{value.inspect} is invalid, must be a String."
       end
     end
   end
@@ -31,11 +31,8 @@ Puppet::Type.newtype(:port_channel) do
     desc 'Port Channel description'
 
     validate do |value|
-      if value.is_a? String
-        super(value)
-        validate_features_per_value(value)
-      else fail "value #{value.inspect} is invalid, must be a string."
-      end
+      super(value) && validate_features_per_value(value) if value.is_a? String
+      raise "value #{value.inspect} is invalid, must be a string." unless value.is_a? String
     end
   end
 
@@ -48,8 +45,8 @@ Puppet::Type.newtype(:port_channel) do
     desc 'Array of Physical Interfaces'
 
     validate do |val|
-      fail "value #{val.inspect} must be a string" unless val.is_a? String
-      fail "value #{val.inspect} has no digits" unless /\d+/.match(val)
+      raise "value #{val.inspect} must be a string" unless val.is_a? String
+      raise "value #{val.inspect} has no digits" unless %r{\d+}.=~(val)
     end
 
     def insync?(is)
