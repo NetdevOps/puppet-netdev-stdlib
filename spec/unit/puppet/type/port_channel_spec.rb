@@ -3,13 +3,13 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:port_channel) do
-  it_behaves_like 'an ensurable type'
-  it_behaves_like 'name is the namevar'
+  subject { described_class.attrclass(attribute) }
 
   let(:catalog) { Puppet::Resource::Catalog.new }
   let(:type) { described_class.new(name: 'emanon', catalog: catalog) }
 
-  subject { described_class.attrclass(attribute) }
+  it_behaves_like 'an ensurable type'
+  it_behaves_like 'name is the namevar'
 
   describe 'force' do
     let(:attribute) { :force }
@@ -38,8 +38,8 @@ describe Puppet::Type.type(:port_channel) do
 
     include_examples '#doc Documentation'
     include_examples 'rejected parameter values'
-    include_examples 'accepts values', %w(active passive disabled)
-    include_examples 'rejects values', %w(foo bar baz)
+    include_examples 'accepts values', %w[active passive disabled]
+    include_examples 'rejects values', %w[foo bar baz]
   end
 
   describe 'minimum_links' do

@@ -14,24 +14,24 @@ end
 
 RSpec.shared_examples 'an ensurable type' do |opts = { name: 'emanon' }|
   describe 'ensure' do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
+    let(:attribute) { :ensure }
     let(:type) do
       described_class.new(name: opts[:name], catalog: catalog)
     end
 
-    let(:attribute) { :ensure }
-    subject { described_class.attrclass(attribute) }
-
     include_examples 'property'
     include_examples '#doc Documentation'
 
-    %w(absent present).each do |val|
+    %w[absent present].each do |val|
       it "accepts #{val.inspect}" do
         type[attribute] = val
       end
     end
 
-    %w(true false).each do |val|
+    %w[true false].each do |val|
       it "rejects #{val.inspect}" do
         expect { type[attribute] = val }.to raise_error Puppet::ResourceError
       end
@@ -49,14 +49,15 @@ end
 
 RSpec.shared_examples 'boolean' do |opts|
   attribute = opts[:attribute]
-  fail unless attribute
+  raise unless attribute
   name = opts[:name] || 'emanon'
 
-  describe "#{attribute}" do
+  describe attribute.to_s do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
     let(:attribute) { attribute }
     let(:type) { described_class.new(name: name, catalog: catalog) }
-    subject { described_class.attrclass(attribute) }
 
     include_examples 'boolean value'
     include_examples '#doc Documentation'
@@ -70,9 +71,9 @@ RSpec.shared_examples 'boolean value' do
       type[attribute] = val
     end
 
-    it "munges #{val.inspect} to #{val.to_s.intern.inspect}" do
+    it "munges #{val.inspect} to #{val.to_s.to_sym.inspect}" do
       type[attribute] = val
-      expect(type[attribute]).to eq(val.to_s.intern)
+      expect(type[attribute]).to eq(val.to_s.to_sym)
     end
   end
 
@@ -85,13 +86,13 @@ end
 
 RSpec.shared_examples 'name is the namevar' do
   describe 'name' do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
+    let(:attribute) { :name }
     let(:type) do
       described_class.new(name: 'emanon', catalog: catalog)
     end
-
-    let(:attribute) { :name }
-    subject { described_class.attrclass(attribute) }
 
     include_examples '#doc Documentation'
 
@@ -105,10 +106,10 @@ RSpec.shared_examples 'name is the namevar' do
       end
     end
 
-    [0, %w(Marketing Sales), { two: :three }].each do |val|
+    [0, %w[Marketing Sales], { two: :three }].each do |val|
       it "rejects #{val.inspect}" do
         expect { type[attribute] = val }
-          .to raise_error Puppet::ResourceError, /is invalid, must be a String/
+          .to raise_error Puppet::ResourceError, %r{is invalid, must be a String}
       end
     end
   end
@@ -116,13 +117,13 @@ end
 
 RSpec.shared_examples 'the namevar is' do |namevar|
   describe "namevar of #{namevar}" do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
+    let(:attribute) { namevar.to_sym }
     let(:type) do
       described_class.new(title: 'emanon', catalog: catalog)
     end
-
-    let(:attribute) { namevar.intern }
-    subject { described_class.attrclass(attribute) }
 
     include_examples '#doc Documentation'
 
@@ -140,10 +141,10 @@ RSpec.shared_examples 'the namevar is' do |namevar|
       expect(type[attribute]).to eq 'emanon'
     end
 
-    [0, %w(Marketing Sales), { two: :three }].each do |val|
+    [0, %w[Marketing Sales], { two: :three }].each do |val|
       it "rejects #{val.inspect}" do
         expect { type[attribute] = val }
-          .to raise_error Puppet::ResourceError, /is invalid, must be a String/
+          .to raise_error Puppet::ResourceError, %r{is invalid, must be a String}
       end
     end
   end
@@ -152,13 +153,13 @@ end
 RSpec.shared_examples 'numeric namevar' do |opts|
   describe 'name' do
     name = opts[:name] || 5
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
+    let(:attribute) { :name }
     let(:type) do
       described_class.new(name: name, catalog: catalog)
     end
-
-    let(:attribute) { :name }
-    subject { described_class.attrclass(attribute) }
 
     include_examples '#doc Documentation'
 
@@ -186,11 +187,11 @@ end
 
 RSpec.shared_examples '#doc Documentation' do
   it '#doc is a String' do
-    expect(subject.doc).to be_a_kind_of(String)
+    expect(subject.doc).to be_a_kind_of(String) # rubocop:disable RSpec/NamedSubject
   end
 
   it '#doc is not only whitespace' do
-    expect(subject.doc.gsub(/\s+/, '')).not_to be_empty
+    expect(subject.doc.gsub(%r{\s+}, '')).not_to be_empty # rubocop:disable RSpec/NamedSubject
   end
 end
 
@@ -259,11 +260,12 @@ end
 RSpec.shared_examples 'array of strings property' do |opts|
   attribute = opts[:attribute]
   name = opts[:name] || 'emanon'
-  describe "#{attribute}" do
+  describe attribute.to_s do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
     let(:type) { described_class.new(name: name, catalog: catalog) }
     let(:attribute) { attribute }
-    subject { described_class.attrclass(attribute) }
 
     include_examples '#doc Documentation'
     include_examples 'array of strings value'
@@ -288,11 +290,12 @@ end
 RSpec.shared_examples 'array of strings or integers property' do |opts|
   attribute = opts[:attribute]
   name = opts[:name] || 'emanon'
-  describe "#{attribute}" do
+  describe attribute.to_s do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
     let(:type) { described_class.new(name: name, catalog: catalog) }
     let(:attribute) { attribute }
-    subject { described_class.attrclass(attribute) }
 
     include_examples '#doc Documentation'
     include_examples 'array of strings or integers value'
@@ -358,7 +361,7 @@ end
 RSpec.shared_examples 'algorithm property' do
   include_examples 'property'
 
-  %w(md5 sha1 sha256).each do |val|
+  %w[md5 sha1 sha256].each do |val|
     it "accepts #{val.inspect}" do
       type[attribute] = val
     end
@@ -374,7 +377,7 @@ end
 RSpec.shared_examples 'speed property' do
   include_examples 'property'
 
-  %w(auto 1g 10g 40g 56g 100g 100m 10m).each do |val|
+  %w[auto 1g 10g 40g 56g 100g 100m 10m].each do |val|
     it "accepts #{val.inspect}" do
       type[attribute] = val
     end
@@ -390,7 +393,7 @@ end
 RSpec.shared_examples 'duplex property' do
   include_examples 'property'
 
-  %w(auto full half).each do |val|
+  %w[auto full half].each do |val|
     it "accepts #{val.inspect}" do
       type[attribute] = val
     end
@@ -408,14 +411,14 @@ RSpec.shared_examples 'flowcontrol property' do
     expect(described_class.attrtype(attribute)).to eq(:property)
   end
 
-  %w(desired on off).each do |val|
+  %w[desired on off].each do |val|
     it "accepts #{val.inspect}" do
       type[attribute] = val
     end
 
-    it "munges #{val.inspect} to #{val.intern.inspect}" do
+    it "munges #{val.inspect} to #{val.to_sym.inspect}" do
       type[attribute] = val
-      expect(type[attribute]).to eq(val.intern)
+      expect(type[attribute]).to eq(val.to_sym)
     end
   end
 
@@ -428,13 +431,13 @@ end
 
 RSpec.shared_examples 'enabled type' do
   describe 'enable' do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
+    let(:attribute) { :enable }
     let(:type) do
       described_class.new(name: 'emanon', catalog: catalog)
     end
-
-    let(:attribute) { :enable }
-    subject { described_class.attrclass(attribute) }
 
     it 'is a property' do
       expect(described_class.attrtype(attribute)).to eq(:property)
@@ -447,14 +450,15 @@ end
 
 RSpec.shared_examples 'string' do |opts|
   attribute = opts[:attribute]
-  fail unless attribute
+  raise unless attribute
   name = opts[:name] || 'emanon'
 
-  describe "#{attribute}" do
+  describe attribute.to_s do
+    subject { described_class.attrclass(attribute) }
+
     let(:catalog) { Puppet::Resource::Catalog.new }
     let(:attribute) { attribute }
     let(:type) { described_class.new(name: name, catalog: catalog) }
-    subject { described_class.attrclass(attribute) }
 
     include_examples 'string value'
     include_examples '#doc Documentation'
@@ -472,11 +476,11 @@ RSpec.shared_examples 'string value' do
   [0, [1], { two: :three }].each do |val|
     it "rejects #{val.inspect}" do
       expect { type[attribute] = val }
-        .to raise_error Puppet::ResourceError, /is invalid, must be a String/
+        .to raise_error Puppet::ResourceError, %r{is invalid, must be a String}
     end
   end
 
-  [%w(Marketing Sales)].each do |val|
+  [%w[Marketing Sales]].each do |val|
     it "munges #{val.inspect} to #{val.first.inspect}" do
       type[attribute] = val
       expect(type[attribute]).to eq(val.first)
@@ -494,7 +498,7 @@ RSpec.shared_examples 'string parameter value' do
   [0, [1], { two: :three }].each do |val|
     it "rejects #{val.inspect}" do
       expect { type[attribute] = val }
-        .to raise_error Puppet::ResourceError, /is invalid, must be a String/
+        .to raise_error Puppet::ResourceError, %r{is invalid, must be a String}
     end
   end
 end
@@ -513,9 +517,9 @@ RSpec.shared_examples 'accepts values' do |values|
       type[attribute] = val
     end
 
-    it "munges #{val.inspect} to #{val.intern.inspect}" do
+    it "munges #{val.inspect} to #{val.to_sym.inspect}" do
       type[attribute] = val
-      expect(type[attribute]).to eq(val.intern)
+      expect(type[attribute]).to eq(val.to_sym)
     end
   end
 end
@@ -534,24 +538,27 @@ RSpec.shared_examples 'accepts values without munging' do |values|
 end
 
 RSpec.shared_examples 'it has a string property' do |attribute|
-  describe "#{attribute}" do
+  describe attribute.to_s do
     let(:attribute) { attribute }
+
     include_examples '#doc Documentation'
     include_examples 'string value'
   end
 end
 
 RSpec.shared_examples 'it has a string parameter' do |attribute|
-  describe "#{attribute}" do
+  describe attribute.to_s do
     let(:attribute) { attribute }
+
     include_examples '#doc Documentation'
     include_examples 'string parameter value'
   end
 end
 
 RSpec.shared_examples 'it has an array property' do |attribute|
-  describe "#{attribute}" do
+  describe attribute.to_s do
     let(:attribute) { attribute }
+
     include_examples '#doc Documentation'
 
     ['foo'].each do |val|
@@ -563,11 +570,11 @@ RSpec.shared_examples 'it has an array property' do |attribute|
     [0, { two: :three }].each do |val|
       it "rejects #{val.inspect}" do
         expect { type[attribute] = val }
-          .to raise_error Puppet::ResourceError, /is invalid, must be a String/
+          .to raise_error Puppet::ResourceError, %r{is invalid, must be a String}
       end
     end
 
-    [%w(one two three), %w(one), []].each do |val|
+    [%w[one two three], %w[one], []].each do |val|
       it "accepts #{val.inspect} without munging" do
         type[attribute] = val
         expect(type[attribute]).to eq(val)

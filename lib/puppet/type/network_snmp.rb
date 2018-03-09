@@ -9,9 +9,8 @@ Puppet::Type.newtype(:network_snmp) do
     desc 'The name of the Puppet resource, not used to manage the device'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -23,18 +22,16 @@ Puppet::Type.newtype(:network_snmp) do
   newproperty(:contact) do
     desc 'The contact name for this device'
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
   newproperty(:location) do
     desc 'The location of this device'
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 end

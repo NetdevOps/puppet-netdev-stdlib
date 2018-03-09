@@ -3,9 +3,10 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:ntp_auth_key) do
+  subject { described_class.attrclass(attribute) }
+
   let(:catalog) { Puppet::Resource::Catalog.new }
   let(:type) { described_class.new(name: 10, catalog: catalog) }
-  subject { described_class.attrclass(attribute) }
 
   it_behaves_like 'numeric namevar', min: 1, max: 65_535
   it_behaves_like 'it has a string property', :password
@@ -19,6 +20,7 @@ describe Puppet::Type.type(:ntp_auth_key) do
 
   describe 'mode' do
     let(:attribute) { :mode }
+
     include_examples 'numeric parameter', min: 0, max: 7
   end
 end

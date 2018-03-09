@@ -1,5 +1,5 @@
 # automatically load any shared examples or contexts
-Dir["./spec/support/**/*.rb"].sort.each { |f| require f }
+Dir['./spec/support/**/*.rb'].sort.each { |f| require f }
 
 require 'simplecov'
 SimpleCov.start do

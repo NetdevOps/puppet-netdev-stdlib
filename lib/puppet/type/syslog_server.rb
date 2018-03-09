@@ -12,9 +12,8 @@ Puppet::Type.newtype(:syslog_server) do
     desc 'The hostname or address of the remote syslog server'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -33,9 +32,8 @@ Puppet::Type.newtype(:syslog_server) do
     desc 'Interface to send syslog data from, e.g. "management"'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -43,9 +41,8 @@ Puppet::Type.newtype(:syslog_server) do
     desc 'Source interface to send syslog data from, e.g. "ethernet 2/1"'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 end

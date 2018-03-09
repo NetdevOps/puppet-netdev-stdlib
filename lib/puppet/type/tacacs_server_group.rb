@@ -1,4 +1,5 @@
 # encoding: utf-8
+
 Puppet::Type.newtype(:tacacs_server_group) do
   @doc = 'Configure a tacacs server group'
 
@@ -9,9 +10,8 @@ Puppet::Type.newtype(:tacacs_server_group) do
     desc 'The name of the tacacs server group'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
   end
 
@@ -19,16 +19,15 @@ Puppet::Type.newtype(:tacacs_server_group) do
     desc 'Array of servers associated with this group'
 
     validate do |value|
-      if value.is_a? String then super(value)
-      else fail "value #{value.inspect} is invalid, must be a String."
-      end
+      raise "value #{value.inspect} is invalid, must be a String." unless value.is_a? String
+      super(value)
     end
 
-    def should_to_s(new_value=@should)
+    def should_to_s(new_value = @should)
       self.class.format_value_for_display(new_value)
     end
 
-    def is_to_s(current_value=@is)
+    def to_s?(current_value = @is)
       self.class.format_value_for_display(current_value)
     end
   end

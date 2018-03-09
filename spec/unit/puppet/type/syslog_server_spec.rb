@@ -3,9 +3,10 @@
 require 'spec_helper'
 
 describe Puppet::Type.type(:syslog_server) do
+  subject { described_class.attrclass(attribute) }
+
   let(:catalog) { Puppet::Resource::Catalog.new }
   let(:type) { described_class.new(name: 'emanon', catalog: catalog) }
-  subject { described_class.attrclass(attribute) }
 
   it_behaves_like 'name is the namevar'
   it_behaves_like 'an ensurable type'
@@ -14,11 +15,13 @@ describe Puppet::Type.type(:syslog_server) do
 
   describe 'port' do
     let(:attribute) { :port }
+
     include_examples 'numeric parameter', min: 1, max: 65_535
   end
 
   describe 'severity_level' do
     let(:attribute) { :severity_level }
+
     include_examples '#doc Documentation'
     include_examples 'numeric parameter', min: 0, max: 7
   end
