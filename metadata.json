@@ -8,7 +8,7 @@
   "project_page": "https://github.com/puppetlabs/netdev_stdlib",
   "issues_url": "https://tickets.puppetlabs.com/browse/NETDEV",
   "dependencies": [
-  
+    {"name":"puppetlabs/resource_api","version_requirement":">= 0.2.0 < 1.0.0"}
   ],
   "data_provider": null,
   "operatingsystem_support": [
