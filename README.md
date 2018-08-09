@@ -30,6 +30,7 @@ types implemented in this module.
 # Reference
 ## Resource types
 * [`banner`](#banner): Configure banners for network devices
+* [`hostname`](#hostname): Configure the hostname for network devices
 * [`network_dns`](#network_dns): Configure DNS settings for network devices
 * [`network_interface`](#network_interface): Manage physical network interfaces, e.g. Ethernet1
 * [`network_snmp`](#network_snmp): Manage snmp location, contact and enable SNMP on the device
@@ -106,6 +107,21 @@ The following parameters are available in the `domain_name` type.
 namevar
 
 The domain name of the device.
+
+
+#### hostname
+
+The device hostname.
+
+##### attributes
+
+The following attributes are available in the `hostname` type.
+
+###### `name`
+
+namevar
+
+The hostname of the device
 
 
 #### name_server
