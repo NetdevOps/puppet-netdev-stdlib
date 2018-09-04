@@ -6,6 +6,7 @@ describe 'hostname' do
     fake_operatingsystem
     describe Puppet::Type.type(:hostname) do
       it_behaves_like 'name is the namevar'
+      it_behaves_like 'an ensurable type'
     end
   end
   describe 'resource-api' do

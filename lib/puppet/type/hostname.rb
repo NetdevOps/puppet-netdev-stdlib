@@ -4,6 +4,7 @@ if PuppetX::NetdevStdlib::Check.use_old_netdev_type
     @doc = 'The device hostname.'
 
     apply_to_all
+    ensurable
 
     newparam(:name, namevar: true) do
       desc 'The hostname of the device'
@@ -23,6 +24,11 @@ else
     docs: 'The device hostname.',
     features: ['remote_resource'],
     attributes: {
+      ensure: {
+        type:       'Enum[present, absent]',
+        desc:       'Whether the name hostname should be present or absent on the target system.',
+        default:    'present'
+      },
       name: {
         type:      'String',
         desc:      'The host name of the device',

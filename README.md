@@ -113,6 +113,18 @@ The domain name of the device.
 
 The device hostname.
 
+##### Properties
+
+The following properties are available in the `domain_name` type.
+
+###### `ensure`
+
+Valid values: present, absent.
+
+The basic property that the resource should be in.
+
+Default value: present.
+
 ##### attributes
 
 The following attributes are available in the `hostname` type.
