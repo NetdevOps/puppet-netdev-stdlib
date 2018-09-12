@@ -3,12 +3,12 @@ All notable changes to this project will be documented in this file.
 
 ## 0.16.0 - 2018-09-13
 ### Summary:
-This release adds syslog_facility type, enhances syslog_facility and syslog_settings
+This release adds syslog_facility type, enhances network_dns and syslog_settings
 
 ### Added:
-- `network_dns` type
+- `network_dns`
   - hostname
-- `syslog_facility`
+- `syslog_facility` type
   - level
 - `syslog_settings`
   - logfile_severity_level
