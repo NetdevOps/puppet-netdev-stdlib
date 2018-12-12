@@ -108,7 +108,7 @@ else
         desc:      'Specifies the VRF instance used to communicate with the server'
       },
       port: {
-        type:    'Optional[Integer[1, 65535]]',
+        type:    'Optional[Variant[Integer[1, 65535], Enum["unset"]]]',
         desc:    'The port of the TACACS server'
       },
       key: {
@@ -116,11 +116,11 @@ else
         desc:    'Encryption key (plaintext or in hash form depending on key_format)'
       },
       key_format: {
-        type:    'Optional[Integer]',
+        type:    'Optional[Variant[Integer, Enum["unset"]]]',
         desc:    'Encryption key format [0-7]'
       },
       timeout: {
-        type:    'Optional[Integer]',
+        type:    'Optional[Variant[Integer, Enum["unset"]]]',
         desc:    'Number of seconds before the timeout period ends'
       },
       group: {
