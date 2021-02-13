@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = 'NetDev Standard Library provides Puppet types to configure network devices'
   spec.summary       = 'Type definitions for Networking Device (NetDev) Standard Library'
   spec.homepage      = 'https://github.com/puppetlabs/netdev_stdlib'
-  spec.license       = 'Apache 2.0'
+  spec.license       = 'Apache-2.0'
 
   spec.files         = `git ls-files -z`.split("\x0")
   spec.executables   = spec.files.grep(%r{^bin/}) { |f| File.basename(f) }
